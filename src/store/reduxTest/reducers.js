@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 import { handleActions } from "redux-actions";
-import { PLUS_ONE } from "./actions";
+import { WRITE_ANY } from "./actions";
 
 const initialState = fromJS({
     data1: '',
@@ -9,8 +9,7 @@ const initialState = fromJS({
 
 const forTheTest = handleActions(
     {
-        [PLUS_ONE]: (state, action) => {
-            console.log("what is the actions >>> " , action);
+        [WRITE_ANY]: (state, action) => {
             const {value} = action.payload;
             return state.set('data1', value);
         }

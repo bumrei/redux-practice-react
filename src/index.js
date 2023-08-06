@@ -52,8 +52,13 @@ const isSerializable = (value) => {
   return Iterable.isIterable(value) || isPlain(value)
 }
 
-const getEntries = (value) =>
-  Iterable.isIterable(value) ? value.entries() : Object.entries(value)
+const getEntries = (value) => {
+  console.log("getEntries cheeck 11 >>>> " , value.entries);
+  console.log("getEntries cheeck 22 >>>> " , Object.entries(value));
+
+  return Iterable.isIterable(value) ? value.entries() : Object.entries(value);
+}
+  
 
 /**
  * https://redux-toolkit.js.org/api/serializabilityMiddleware 참고.

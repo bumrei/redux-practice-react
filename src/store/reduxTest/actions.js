@@ -1,5 +1,5 @@
 import { createAction } from "redux-actions";
 
-export const PLUS_ONE = 'haTest/PLUS_ONE';
+export const WRITE_ANY = 'haTest/WRITE_ANY';
 
-export const plusOne = createAction(PLUS_ONE, (value) => ({value}))
+export const writeAny = createAction(WRITE_ANY, (value) => ({value}))
