@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import RouterHome from './routes/RouterHome';
 import { configureStore, createSerializableStateInvariantMiddleware, isPlain } from '@reduxjs/toolkit';
-import rootReducer from './store';
+import rootReducer, { rootSaga } from './store';
 import { Provider } from 'react-redux';
+import createSagaMiddleware from '@redux-saga/core';
 import { Iterable } from "immutable";
 
 const isSerializable = (value) => {
@@ -17,8 +18,7 @@ const isSerializable = (value) => {
    * immutable dependency 에 fromJS() 로 만들어진 객체는 Map({...}) 이다. 즉 json 의 직렬화가 불가능하다고 한다.
    * 이 기능을 통해 Iterable 객체인 Map 과 Set 의 경우에 발생하는 non-Serialize 문제를 해결.
    */
-  const result = Iterable.isIterable(value);
-  console.log("Iterable.isIterable(value) 체크 >> " , result);
+
   /**
    * isPlain() : Plain Value 일 경우 return true
    * 
@@ -46,16 +46,10 @@ const isSerializable = (value) => {
    *    -> 문자열 => 객체로 반환 : 이것을 역직렬화라고 한다. (Deserialize).
    *    -> JSON 통신으로 BE 로부터 받은 문자열을 객체로 역직렬화 하여 사용한다.
    */
-  const result2 = isPlain(value);
-  console.log("isPlain() check >>> " , result2);
-
   return Iterable.isIterable(value) || isPlain(value)
 }
 
 const getEntries = (value) => {
-  console.log("getEntries cheeck 11 >>>> " , value.entries);
-  console.log("getEntries cheeck 22 >>>> " , Object.entries(value));
-
   return Iterable.isIterable(value) ? value.entries() : Object.entries(value);
 }
   
@@ -68,10 +62,14 @@ const serializableMiddleware = createSerializableStateInvariantMiddleware({
   getEntries,
 })
 
+const sagaMiddleware = createSagaMiddleware();
+
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [serializableMiddleware],
+  middleware: [serializableMiddleware, sagaMiddleware],
 })
+
+sagaMiddleware.run(rootSaga);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -7,6 +7,7 @@ const ReduxBasicTest = () => {
     const dispatch = useDispatch();
     const [content, setContent] = useState('');
     const [contentTwo, setContentTwo] = useState('');
+    const [sagaTest, setSagaTest] = useState('');
     const result = useSelector((state) => state.forTheTest);
     const resultTwo = useSelector((state) => state.multiTest);
 
@@ -18,6 +19,10 @@ const ReduxBasicTest = () => {
     const handleMultiReducer = () => {
         dispatch(multiReducer.multiReducerTest(contentTwo));
         setContentTwo('');
+    }
+
+    const handleSagaAction = () => {
+        dispatch(reduxTest.sagaTest(sagaTest));
     }
 
     return (
@@ -34,6 +39,18 @@ const ReduxBasicTest = () => {
             <input value={contentTwo} onChange={(e) => setContentTwo(e.target.value)}/>
             <button type='button' onClick={handleMultiReducer}>multi Reducer Set</button>
             <h2>{resultTwo.getIn(['data1'])}</h2>
+            <br />
+            <br />
+            <br />
+            <br />
+            <h1>This is Saga-Redux Test Part</h1>
+            <input value={sagaTest} onChange={(e) => setSagaTest(e.target.value)}/>
+
+            <button type='button' onClick={handleSagaAction}>Redux-Saga Test</button>
+            <h2>{result.getIn(['sagaResult'])}</h2>
+            <h2>{result.getIn(['pending']) ? 'loading' : 'update complete'}</h2>
+
+
         </div>
     );
 };
