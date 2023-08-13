@@ -47,7 +47,7 @@ const ReduxBasicTest = () => {
             <input value={sagaTest} onChange={(e) => setSagaTest(e.target.value)}/>
 
             <button type='button' onClick={handleSagaAction}>Redux-Saga Test</button>
-            <h2>{result.getIn(['sagaResult'])}</h2>
+            <h2>{result.getIn(['starwarsResult', 'name'])}</h2>
             <h2>{result.getIn(['pending']) ? 'loading' : 'update complete'}</h2>
 
 
